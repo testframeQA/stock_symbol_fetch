@@ -12,6 +12,7 @@ def test_confirm_page_title():
         pytest.fail(f"Page Title Missing Expected Text - {title}")
         
 #loads test_url, captures stock symbols in YMBI section, compares that set to test_data, prints symbols in YMBI not found in test_data
+@pytest.mark.ymbi_set
 def test_stock_symbol_ymbi_diff():
     driver = Driver.create_driver()
     Finance_Page.go_to_url(driver)
@@ -25,6 +26,7 @@ def test_stock_symbol_ymbi_diff():
         print(f"Stock Symbols In Google Finance YMBI Section Not In Test Data - {diffs}")
 
 #loads test_url, captures stock symbols in YMBI section, compares that set to test_data, prints symbols in test_data not found in YMBI section  
+@pytest.mark.test_set
 def test_stock_symbol_data_diff():
     driver = Driver.create_driver()
     Finance_Page.go_to_url(driver)
