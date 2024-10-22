@@ -2,7 +2,7 @@ name: Run Test Suite
 
 on:
   schedule:
-    - cron: '30 22 * * *'
+    - cron: '50 22 * * *'
   
   workflow_dispatch:
     inputs:
@@ -36,18 +36,18 @@ jobs:
 
       - name: Run Tests
         run: |
-          if [[ "${{ github.event.inputs.test }}" == "schedule" ]]; then
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
             echo "Running all tests on nightly cron job"
-            pytest src/tests/test_stock_symbol_scrape.py          
-          if [[ "${{ github.event.inputs.test }}" == "all" ]]; then
-            echo "Running all tests"
             pytest src/tests/test_stock_symbol_scrape.py
-          elif [[ "${{ github.event.inputs.test }}" == "ymbi_set" ]]; then
-            echo "Running Google Finance Data Not In Test Data Set"
-            pytest src/tests/test_stock_symbol_scrape.py -m ymbi_set
-          elif [[ "${{ github.event.inputs.test }}" == "test_set" ]]; then
-            echo "Running Test Data Not In Google Finance Data Set"
-            pytest src/tests/test_stock_symbol_scrape.py -m test_set
+          else          
+            if [[ "${{ github.event.inputs.test }}" == "all" ]]; then
+              echo "Running all tests"
+              pytest src/tests/test_stock_symbol_scrape.py
+            elif [[ "${{ github.event.inputs.test }}" == "ymbi_set" ]]; then
+              echo "Running Google Finance Data Not In Test Data Set"
+              pytest src/tests/test_stock_symbol_scrape.py -m ymbi_set
+            elif [[ "${{ github.event.inputs.test }}" == "test_set" ]]; then
+              echo "Running Test Data Not In Google Finance Data Set"
+              pytest src/tests/test_stock_symbol_scrape.py -m test_set
+            fi
           fi
-        env:
-          TEST_TYPE: ${{ github.event.inputs.test }}
