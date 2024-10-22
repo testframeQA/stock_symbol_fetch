@@ -46,3 +46,5 @@ jobs:
             echo "Running Test Data Not In Google Finance Data Set"
             pytest src/tests/test_stock_symbol_scrape.py -m test_set
           fi
+        env:
+          TEST_TYPE: ${{ github.event.inputs.test }}
