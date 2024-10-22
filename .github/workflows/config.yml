@@ -20,20 +20,16 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        test_type: [all, ymbi_set, ymbi_set]
-
     steps:
-      - name: Check out repository
+      - name: Check Out Repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Configure Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -42,7 +38,7 @@ jobs:
         run: |
           if [[ "${{ github.event.inputs.test }}" == "all" ]]; then
             echo "Running all tests"
-            pytest  src/tests/test_stock_symbol_scrape.py
+            pytest src/tests/test_stock_symbol_scrape.py
           elif [[ "${{ github.event.inputs.test }}" == "ymbi_set" ]]; then
             echo "Running Google Finance Data Not In Test Data Set"
             pytest src/tests/test_stock_symbol_scrape.py -m ymbi_set
@@ -50,5 +46,3 @@ jobs:
             echo "Running Test Data Not In Google Finance Data Set"
             pytest src/tests/test_stock_symbol_scrape.py -m test_set
           fi
-        env:
-          TEST_TYPE: ${{ github.event.inputs.test }}
