@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
@@ -40,15 +40,15 @@ jobs:
 
       - name: Run Tests
         run: |
-          if [[ "${{ matrix.test_type }}" == "all" ]]; then
+          if [[ "${{ github.event.inputs.test }}" == "all" ]]; then
             echo "Running all tests"
             pytest  src/tests/test_stock_symbol_scrape.py
-          elif [[ "${{ matrix.test_type }}" == "ymbi_set" ]]; then
+          elif [[ "${{ github.event.inputs.test }}" == "ymbi_set" ]]; then
             echo "Running Google Finance Data Not In Test Data Set"
             pytest src/tests/test_stock_symbol_scrape.py -m ymbi_set
-          elif [[ "${{ matrix.test_type }}" == "test_set" ]]; then
+          elif [[ "${{ github.event.inputs.test }}" == "test_set" ]]; then
             echo "Running Test Data Not In Google Finance Data Set"
             pytest src/tests/test_stock_symbol_scrape.py -m test_set
           fi
         env:
-          TEST_TYPE: ${{ matrix.test_type }}
+          TEST_TYPE: ${{ github.event.inputs.test }}
