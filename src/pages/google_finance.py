@@ -15,6 +15,11 @@ class Finance_Page:
     # locates the UI elemnts for each of the six stock symbols, creates empty list, loops through 
     # the symbols elements and captures the value of each as a string
     def get_stock_symbols(driver):
+        '''
+        Loads test_url, locates UI elements in div class for You Might Also Be Interested section, 
+        locates the UI elemnts for each of the six stock symbols, creates empty list, loops through 
+        the symbols elements and captures the value of each as a string
+        '''
         ymbi_frame = (loc.ymbi_stocks_module_class)
         ymbi_symbol = (loc.ymbi_stock_symbol)
         get_symbols = driver.find_element(*ymbi_frame)
